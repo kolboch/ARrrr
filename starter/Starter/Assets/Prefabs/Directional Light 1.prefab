@@ -9,56 +9,56 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1044858026592258}
+  m_RootGameObject: {fileID: 1105522464989628}
   m_IsPrefabParent: 1
---- !u!1 &1044858026592258
+--- !u!1 &1105522464989628
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4434554942101938}
-  - component: {fileID: 108062045716871378}
+  - component: {fileID: 4301285211325610}
+  - component: {fileID: 108368098281232974}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Directional Light 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4434554942101938
+--- !u!4 &4301285211325610
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044858026592258}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_GameObject: {fileID: 1105522464989628}
+  m_LocalRotation: {x: 0.39092585, y: -0.23146717, z: 0.86249816, w: 0.22292809}
+  m_LocalPosition: {x: 0, y: 17.49, z: -5.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!108 &108062045716871378
+  m_LocalEulerAnglesHint: {x: 35, y: 44.206, z: 165.61}
+--- !u!108 &108368098281232974
 Light:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044858026592258}
+  m_GameObject: {fileID: 1105522464989628}
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
+  m_Color: {r: 0.9705882, g: 0.9705882, b: 0.9705882, a: 1}
   m_Intensity: 1.9
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
-    m_Resolution: -1
+    m_Resolution: 2
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.607
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -69,7 +69,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570

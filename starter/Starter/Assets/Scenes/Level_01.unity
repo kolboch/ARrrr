@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 8
   m_Fog: 1
   m_FogColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
   m_FogMode: 3
@@ -39,7 +39,6 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
   m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
-  m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -55,10 +54,11 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 10
-    m_AtlasSize: 512
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
@@ -265,7 +265,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!108 &170076734 stripped
 Light:
-  m_PrefabParentObject: {fileID: 108062045716871378, guid: fd01c4ea2b9bce64bb975993180c6e59,
+  m_PrefabParentObject: {fileID: 108368098281232974, guid: c41d315123770f3458b6652c77f8c1b8,
     type: 2}
   m_PrefabInternal: {fileID: 230012777}
 --- !u!1001 &230012777
@@ -275,40 +275,44 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 17.49
       objectReference: {fileID: 0}
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -5.22
       objectReference: {fileID: 0}
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.40821788
+      value: 0.39092585
       objectReference: {fileID: 0}
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.23456968
+      value: -0.23146717
       objectReference: {fileID: 0}
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0.10938163
+      value: 0.86249816
       objectReference: {fileID: 0}
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.8754261
+      value: 0.22292809
       objectReference: {fileID: 0}
-    - target: {fileID: 4434554942101938, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+    - target: {fileID: 4301285211325610, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1105522464989628, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
+      propertyPath: m_Name
+      value: Directional Light
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: fd01c4ea2b9bce64bb975993180c6e59, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: c41d315123770f3458b6652c77f8c1b8, type: 2}
   m_IsPrefabParent: 0
 --- !u!20 &282840813 stripped
 Camera:

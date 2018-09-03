@@ -58,7 +58,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 74e5c3d6e1c1f4c45aba1a5f54171346, type: 2}
   m_StaticBatchInfo:
@@ -138,6 +137,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 54478467190587616}
-  baseSpeed: 5000
+  baseSpeed: 7000
   sideSpeed: 110
   gameEndMinY: -2
