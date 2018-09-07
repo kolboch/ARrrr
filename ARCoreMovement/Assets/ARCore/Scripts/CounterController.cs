@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+    using Input = GoogleARCore.InstantPreviewInput;
+#endif
+
 public class CounterController : MonoBehaviour {
 
     public GameObject SearchingForPlaneUI;
     public GameObject CountUI;
     public PlaceAndCount InputHandler;
-    private List<DetectedPlane> AllDetectedPlanes;
+    private List<DetectedPlane> AllDetectedPlanes = new List<DetectedPlane>();
     private bool _IsQuitting = false;
-
-    void Start() {
-        AllDetectedPlanes = new List<DetectedPlane>();
-    }
-
+    
     // Update is called once per frame
     void Update() {
         _UpdateApplicationLifeCycle();
@@ -54,10 +54,6 @@ public class CounterController : MonoBehaviour {
 
     private IEnumerator _DoQuitWithDelay(float delay) {
         yield return new WaitForSeconds(delay);
-    }
-
-    // exits the application
-    private void _DoQuit() {
         Application.Quit();
     }
 }

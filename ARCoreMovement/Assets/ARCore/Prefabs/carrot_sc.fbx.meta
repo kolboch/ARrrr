@@ -1,0 +1,265 @@
+fileFormatVersion: 2
+guid: 54b27cc7265a09d41bd6af2b13d11c4f
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: carrot_main
+    100002: //RootNode
+    100004: carrot_stem_0
+    100006: carrot_stem_1
+    100008: carrot_stem_2
+    100010: carrot_stem_3
+    100012: leaf_lvl0_a
+    100014: leaf_lvl0_a.001
+    100016: leaf_lvl0_b
+    100018: leaf_lvl0_b.001
+    100020: leaf_lvl1_a
+    100022: leaf_lvl1_a.001
+    100024: leaf_lvl1_b
+    100026: leaf_lvl1_b.001
+    100028: leaf_lvl2_a
+    100030: leaf_lvl2_a.001
+    100032: leaf_lvl2_b
+    100034: leaf_lvl2_b.001
+    100036: leaf_lvl3_a
+    100038: leaf_lvl3_a.001
+    100040: leaf_lvl3_b
+    100042: leaf_lvl3_b.001
+    100044: leaf_lvl4_a
+    100046: leaf_lvl4_a.001
+    100048: leaf_lvl4_b
+    100050: leaf_lvl4_b.001
+    100052: leaf_spike
+    100054: leafs_base
+    400000: carrot_main
+    400002: //RootNode
+    400004: carrot_stem_0
+    400006: carrot_stem_1
+    400008: carrot_stem_2
+    400010: carrot_stem_3
+    400012: leaf_lvl0_a
+    400014: leaf_lvl0_a.001
+    400016: leaf_lvl0_b
+    400018: leaf_lvl0_b.001
+    400020: leaf_lvl1_a
+    400022: leaf_lvl1_a.001
+    400024: leaf_lvl1_b
+    400026: leaf_lvl1_b.001
+    400028: leaf_lvl2_a
+    400030: leaf_lvl2_a.001
+    400032: leaf_lvl2_b
+    400034: leaf_lvl2_b.001
+    400036: leaf_lvl3_a
+    400038: leaf_lvl3_a.001
+    400040: leaf_lvl3_b
+    400042: leaf_lvl3_b.001
+    400044: leaf_lvl4_a
+    400046: leaf_lvl4_a.001
+    400048: leaf_lvl4_b
+    400050: leaf_lvl4_b.001
+    400052: leaf_spike
+    400054: leafs_base
+    2100000: carrot_base
+    2100002: carrot_leaf_mid
+    2100004: carrot_try4_2048
+    2100006: leaf_carrot_2048
+    2100008: carrot_try3_2048
+    2100010: large_leaf_carrot_2048
+    2100012: carrot_main_uv
+    2300000: carrot_main
+    2300002: carrot_stem_0
+    2300004: carrot_stem_1
+    2300006: carrot_stem_2
+    2300008: carrot_stem_3
+    2300010: leaf_lvl0_a
+    2300012: leaf_lvl0_a.001
+    2300014: leaf_lvl0_b
+    2300016: leaf_lvl0_b.001
+    2300018: leaf_lvl1_a
+    2300020: leaf_lvl1_a.001
+    2300022: leaf_lvl1_b
+    2300024: leaf_lvl1_b.001
+    2300026: leaf_lvl2_a
+    2300028: leaf_lvl2_a.001
+    2300030: leaf_lvl2_b
+    2300032: leaf_lvl2_b.001
+    2300034: leaf_lvl3_a
+    2300036: leaf_lvl3_a.001
+    2300038: leaf_lvl3_b
+    2300040: leaf_lvl3_b.001
+    2300042: leaf_lvl4_a
+    2300044: leaf_lvl4_a.001
+    2300046: leaf_lvl4_b
+    2300048: leaf_lvl4_b.001
+    2300050: leaf_spike
+    2300052: leafs_base
+    3300000: carrot_main
+    3300002: carrot_stem_0
+    3300004: carrot_stem_1
+    3300006: carrot_stem_2
+    3300008: carrot_stem_3
+    3300010: leaf_lvl0_a
+    3300012: leaf_lvl0_a.001
+    3300014: leaf_lvl0_b
+    3300016: leaf_lvl0_b.001
+    3300018: leaf_lvl1_a
+    3300020: leaf_lvl1_a.001
+    3300022: leaf_lvl1_b
+    3300024: leaf_lvl1_b.001
+    3300026: leaf_lvl2_a
+    3300028: leaf_lvl2_a.001
+    3300030: leaf_lvl2_b
+    3300032: leaf_lvl2_b.001
+    3300034: leaf_lvl3_a
+    3300036: leaf_lvl3_a.001
+    3300038: leaf_lvl3_b
+    3300040: leaf_lvl3_b.001
+    3300042: leaf_lvl4_a
+    3300044: leaf_lvl4_a.001
+    3300046: leaf_lvl4_b
+    3300048: leaf_lvl4_b.001
+    3300050: leaf_spike
+    3300052: leafs_base
+    4300000: leafs_base
+    4300002: carrot_stem_3
+    4300004: carrot_stem_2
+    4300006: leaf_lvl0_a.001
+    4300008: leaf_lvl0_b.001
+    4300010: leaf_lvl1_b.001
+    4300012: leaf_lvl4_a.001
+    4300014: leaf_lvl4_b.001
+    4300016: leaf_lvl1_a.001
+    4300018: leaf_lvl2_b.001
+    4300020: leaf_lvl2_a.001
+    4300022: leaf_lvl3_a.001
+    4300024: leaf_lvl3_b.001
+    4300026: carrot_stem_1
+    4300028: leaf_spike
+    4300030: leaf_lvl3_b
+    4300032: leaf_lvl3_a
+    4300034: leaf_lvl2_a
+    4300036: leaf_lvl2_b
+    4300038: leaf_lvl1_a
+    4300040: leaf_lvl4_b
+    4300042: leaf_lvl4_a
+    4300044: leaf_lvl1_b
+    4300046: leaf_lvl0_b
+    4300048: leaf_lvl0_a
+    4300050: carrot_stem_0
+    4300052: carrot_main
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: carrot_base
+    second: {fileID: 2100000, guid: 68ba11bd262b80f49baa5989b048411b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: carrot_leaf_mid
+    second: {fileID: 2100000, guid: 050c7379cc68fa743aacbc2a3c81ba6e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: carrot_main_uv
+    second: {fileID: 2100000, guid: 50a927700583aac4b958e551a7815fa1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: carrot_try3_2048
+    second: {fileID: 2100000, guid: 492a9791e7efa1a43a1eb33604fe6ceb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: carrot_try4_2048
+    second: {fileID: 2100000, guid: 421cacdd6a69fe94780619d9c4a05828, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: large_leaf_carrot_2048
+    second: {fileID: 2100000, guid: eb688b1c03aabea4f9d20818bcb6cfcb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: leaf_carrot_2048
+    second: {fileID: 2100000, guid: e658341664c3eb343a8fe5460bb43ec0, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

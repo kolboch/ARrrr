@@ -2,7 +2,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class PlaceAndCount : MonoBehaviour {
+public interface IInputHandler {
+    void HandleInput();
+}
+
+public class PlaceAndCount : MonoBehaviour, IInputHandler {
 
     public Camera FirstPersonCamera;
     public GameObject PrefabToPlace;
