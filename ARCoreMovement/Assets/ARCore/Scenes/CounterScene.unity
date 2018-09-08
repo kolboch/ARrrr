@@ -141,7 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FirstPersonCamera: {fileID: 1549909196}
-  PrefabToPlace: {fileID: 100002, guid: 54b27cc7265a09d41bd6af2b13d11c4f, type: 3}
+  PrefabModel: {fileID: 100002, guid: 54b27cc7265a09d41bd6af2b13d11c4f, type: 3}
+  CountUI: {fileID: 595464555}
 --- !u!4 &169104505
 Transform:
   m_ObjectHideFlags: 0
@@ -149,7 +150,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 169104503}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 578.16614, y: 1546.1748, z: 43.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -196,7 +197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SearchingForPlaneUI: {fileID: 988056466}
-  CountUI: {fileID: 595464552}
   InputHandler: {fileID: 169104504}
 --- !u!1 &595464552
 GameObject:
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 595464555}
   - component: {fileID: 595464554}
   m_Layer: 5
-  m_Name: Score
+  m_Name: CounterUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

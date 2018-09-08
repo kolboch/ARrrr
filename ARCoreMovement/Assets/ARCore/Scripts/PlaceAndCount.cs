@@ -1,6 +1,7 @@
 ﻿using GoogleARCore;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public interface IInputHandler {
     void HandleInput();
@@ -9,8 +10,9 @@ public interface IInputHandler {
 public class PlaceAndCount : MonoBehaviour, IInputHandler {
 
     public Camera FirstPersonCamera;
-    public GameObject PrefabToPlace;
-    private List<Object> TrackedObjects;
+    public GameObject PrefabModel;
+    private List<GameObject> TrackedObjects = new List<GameObject>();
+    public Text CountUI;
     private float k_ModelRotation = 180.0f;
 
     public void HandleInput() {
@@ -33,26 +35,36 @@ public class PlaceAndCount : MonoBehaviour, IInputHandler {
                     hit.Pose.rotation * Vector3.up) < 0) {
                 Debug.Log("Hit at back of the current DetectedPlane");
             } else {
-                // Choose the Andy model for the Trackable that got hit.
+                // Choose the model for the Trackable that got hit.
                 GameObject prefab;
                 if (hit.Trackable is FeaturePoint) {
-                    prefab = PrefabToPlace;
+                    prefab = PrefabModel; //point prefab
                 } else {
-                    prefab = PrefabToPlace;
+                    prefab = PrefabModel; // plane prefab
                 }
+                Debug.Log("Creating prefab in a second !!!");
+                var prefabToPlace = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
 
-                // Instantiate Andy model at the hit pose.
-                var andyObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+                // move above plane
+                // float prefabOffsetY = prefabToPlace.GetComponent<Renderer>().bounds.size.y / 2;
+                // Debug.Log("Move above plane offset: " + prefabOffsetY);
+                // prefabToPlace.transform.position = prefabToPlace.transform.position + new Vector3(0, prefabOffsetY, 0);
 
                 // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                andyObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                prefabToPlace.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                 // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                 // world evolves.
                 var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
-                // Make Andy model a child of the anchor.
-                andyObject.transform.parent = anchor.transform;
+                // Make model a child of the anchor.
+                prefabToPlace.transform.parent = anchor.transform;
+
+                //add object to list of created ones and update UI
+                Debug.Log("Add to list!");
+                TrackedObjects.Add(prefabToPlace);
+                CountUI.text = "#: " + TrackedObjects.Count;
+                Debug.Log("Count: " + TrackedObjects.Count);
             }
         }
     }

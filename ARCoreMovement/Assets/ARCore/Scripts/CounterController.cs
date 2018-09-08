@@ -10,7 +10,6 @@ using UnityEngine;
 public class CounterController : MonoBehaviour {
 
     public GameObject SearchingForPlaneUI;
-    public GameObject CountUI;
     public PlaceAndCount InputHandler;
     private List<DetectedPlane> AllDetectedPlanes = new List<DetectedPlane>();
     private bool _IsQuitting = false;
