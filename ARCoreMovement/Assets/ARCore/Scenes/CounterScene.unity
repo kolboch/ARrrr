@@ -141,7 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FirstPersonCamera: {fileID: 1549909196}
-  PrefabModel: {fileID: 100002, guid: 54b27cc7265a09d41bd6af2b13d11c4f, type: 3}
+  PrefabModel: {fileID: 1617581055674794, guid: 14b7d9113b698c04da292df017a91868,
+    type: 2}
   CountUI: {fileID: 595464555}
 --- !u!4 &169104505
 Transform:

@@ -42,13 +42,17 @@ public class PlaceAndCount : MonoBehaviour, IInputHandler {
                 } else {
                     prefab = PrefabModel; // plane prefab
                 }
-                Debug.Log("Creating prefab in a second !!!");
+
                 var prefabToPlace = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
 
-                // move above plane
-                // float prefabOffsetY = prefabToPlace.GetComponent<Renderer>().bounds.size.y / 2;
-                // Debug.Log("Move above plane offset: " + prefabOffsetY);
-                // prefabToPlace.transform.position = prefabToPlace.transform.position + new Vector3(0, prefabOffsetY, 0);
+                Debug.Log("Local position: " + prefabToPlace.transform.localPosition.ToString());
+                Debug.Log("Position: " + prefabToPlace.transform.position.ToString());
+                Debug.Log("Local scale: " + prefabToPlace.transform.localScale.ToString());
+
+                //adjusting y placement
+                var colliderComponent = prefabToPlace.GetComponent<Collider>();
+                float heightOffset = colliderComponent.bounds.size.y / 2;
+                prefabToPlace.transform.position = prefabToPlace.transform.position + new Vector3(0, heightOffset, 0);
 
                 // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
                 prefabToPlace.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
@@ -61,10 +65,8 @@ public class PlaceAndCount : MonoBehaviour, IInputHandler {
                 prefabToPlace.transform.parent = anchor.transform;
 
                 //add object to list of created ones and update UI
-                Debug.Log("Add to list!");
                 TrackedObjects.Add(prefabToPlace);
-                CountUI.text = "#: " + TrackedObjects.Count;
-                Debug.Log("Count: " + TrackedObjects.Count);
+                CountUI.text = TrackedObjects.Count.ToString();
             }
         }
     }
