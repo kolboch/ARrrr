@@ -4,6 +4,7 @@ using UnityEngine;
 public class BoxRotator : MonoBehaviour {
 
     public Transform Cube;
+    public Transform Cyllinder;
     public Vector3 Origin = new Vector3(0, 0.5f, 0);
     private bool rotateAroundOn = false;
 
@@ -18,6 +19,11 @@ public class BoxRotator : MonoBehaviour {
             rotateAroundOn = true;
             StartCoroutine(RotateAround());
         }
+    }
+
+    public void LookRotation() {
+        Vector3 relativePosition = Cyllinder.transform.position - Cube.transform.position;
+        Cube.transform.rotation = Quaternion.LookRotation(relativePosition);
     }
 
     IEnumerator RotateAround() {
