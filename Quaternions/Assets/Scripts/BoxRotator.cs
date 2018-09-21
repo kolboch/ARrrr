@@ -4,20 +4,19 @@ using UnityEngine;
 public class BoxRotator : MonoBehaviour {
 
     public Transform Cube;
-    public Transform Cyllinder;
+    public Transform CyllinderRed;
+    public Transform CyllinderBlue;
     public Vector3 Origin = new Vector3(0, 1.5f, 0);
     public Vector3 OriginRotation = new Vector3(0, 0, 0);
     private bool rotateAroundOn = false;
     private bool rotateOn = false;
     private bool rotateTowardsOn = false;
-
-    private void Update() {
-
-    }
+    private bool lerpOn = false;
+    private bool slerpOn = false;
 
     public void ResetPosition() {
-        Cube.transform.position = Origin;
-        Cube.transform.rotation = Quaternion.Euler(OriginRotation);
+        Cube.position = Origin;
+        Cube.rotation = Quaternion.Euler(OriginRotation);
     }
 
     public void RotateAroundToggle() {
@@ -34,7 +33,7 @@ public class BoxRotator : MonoBehaviour {
     }
 
     public void FromToRotatation() {
-        Cube.transform.rotation = Quaternion.FromToRotation(Vector3.up, Cube.transform.up);
+        Cube.rotation = Quaternion.FromToRotation(Vector3.up, Cube.up);
     }
 
     public void RotateToggle() {
@@ -55,6 +54,24 @@ public class BoxRotator : MonoBehaviour {
         }
     }
 
+    public void LerpToggle() {
+        if (lerpOn) {
+            lerpOn = false;
+        } else {
+            lerpOn = true;
+            StartCoroutine(LerpCoroutine());
+        }
+    }
+
+    public void SlerpToggle() {
+        if (slerpOn) {
+            slerpOn = false;
+        } else {
+            slerpOn = true;
+            StartCoroutine(SlerpCoroutine());
+        }
+    }
+
     private IEnumerator RotateAround() {
         Vector3 RotationPoint = Origin + new Vector3(1, 0, 1);
         while (true) {
@@ -69,20 +86,20 @@ public class BoxRotator : MonoBehaviour {
 
     private IEnumerator LookRotationCoroutine() {
         // forward z axis will point into provided direction
-        Vector3 relativePosition = Cyllinder.transform.position - Cube.transform.position;
+        Vector3 relativePosition = CyllinderRed.position - Cube.position;
         relativePosition.y = 0;
-        Cube.transform.rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
+        Cube.rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
         yield return new WaitForSeconds(3);
-        Cube.transform.rotation = Quaternion.LookRotation(relativePosition, Vector3.left);
+        Cube.rotation = Quaternion.LookRotation(relativePosition, Vector3.left);
         yield return new WaitForSeconds(3);
-        Cube.transform.rotation = Quaternion.LookRotation(relativePosition, Vector3.right);
+        Cube.rotation = Quaternion.LookRotation(relativePosition, Vector3.right);
     }
 
     private IEnumerator RotateCoroutine() {
         // by default rotation is around local axes, same like Space.self
         // good example of Space.World with look rotation
         while (true) {
-            Cube.transform.Rotate(Vector3.up * Time.deltaTime * 45, Space.World);
+            Cube.Rotate(Vector3.up * Time.deltaTime * 45, Space.World);
             if (rotateOn) {
                 yield return null;
             } else {
@@ -94,7 +111,32 @@ public class BoxRotator : MonoBehaviour {
     private IEnumerator RotateTowardsCoroutine() {
         while (true) {
             if (rotateTowardsOn) {
-                Cube.transform.rotation = Quaternion.RotateTowards(Cube.transform.rotation, Quaternion.Euler(Vector3.up), 15 * Time.deltaTime);
+                Cube.rotation = Quaternion.RotateTowards(Cube.rotation, Quaternion.Euler(Vector3.up), 15 * Time.deltaTime);
+                yield return null;
+            } else {
+                yield break;
+            }
+        }
+    }
+
+    private IEnumerator LerpCoroutine() {
+        float speed = 0.5f;
+        while (true) {
+            if (lerpOn) {
+                Cube.rotation = Quaternion.Lerp(Cube.rotation, CyllinderBlue.rotation, speed * Time.deltaTime);
+                yield return null;
+            } else {
+                yield break;
+            }
+        }
+    }
+
+    // Slerp has additionaly to Lerp Ease in ease out behaviour
+    private IEnumerator SlerpCoroutine() {
+        var speed = 0.5f;
+        while (true) {
+            if (slerpOn) {
+                Cube.rotation = Quaternion.Slerp(Cube.rotation, CyllinderBlue.rotation, speed * Time.deltaTime);
                 yield return null;
             } else {
                 yield break;
