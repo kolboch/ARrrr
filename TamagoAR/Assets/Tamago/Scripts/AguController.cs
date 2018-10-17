@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-public class CharacterController : MonoBehaviour {
+public class AguController : MonoBehaviour {
 
     public Camera FirstPersonCamera;
     public float rotateSpeed = 1f;
@@ -12,7 +13,11 @@ public class CharacterController : MonoBehaviour {
     private IEnumerator Walking;
     private Animator animator;
     private Vector3 DestinationPoint;
-    
+
+    void Start() {
+        animator = GetComponent<Animator>();
+    }
+
     // Update is called once per frame
     void Update() {
         HandleInput();
@@ -32,12 +37,6 @@ public class CharacterController : MonoBehaviour {
                     Debug.Log("Hit at back of detected plane");
                 }
             }
-            //Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
-            //Physics.Raycast(ray, out hit);
-            //if (hit.collider.tag == "Environment") {
-            //   DestinationPoint = hit.point;
-            //   RotateAndWalkToPosition();
-            //}
         }
     }
 
@@ -46,6 +45,7 @@ public class CharacterController : MonoBehaviour {
             StopCoroutine(Rotating);
         }
         StopWalkingCoroutine();
+        Assert.IsNotNull(animator);
         animator.SetBool("IsWalking", false);
         Walking = WalkingCoroutine();
         Rotating = RotateCoroutine(Walking);
@@ -65,6 +65,7 @@ public class CharacterController : MonoBehaviour {
     }
 
     private IEnumerator WalkingCoroutine() {
+        Debug.Log("Walking invoked.");
         animator.SetBool("IsWalking", true);
         var destinationIgnoredY = new Vector3(DestinationPoint.x, transform.position.y, DestinationPoint.z);
         while (transform.position != destinationIgnoredY) {
@@ -75,6 +76,7 @@ public class CharacterController : MonoBehaviour {
     }
 
     private IEnumerator RotateCoroutine(IEnumerator SuccessorCoroutine = null) {
+        Debug.Log("RotateCoroutine invoked.");
         Vector3 destinationIgnoredY = new Vector3(DestinationPoint.x, transform.position.y, DestinationPoint.z);
         Vector3 direction = destinationIgnoredY - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);

@@ -184,7 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FirstPersonCamera: {fileID: 1128809868}
   SearchingPlanesUI: {fileID: 1273678905}
-  CharacterToPlace: {fileID: 1915309514406760, guid: f3b3b29bf88fd564ba2bc8236bc34e1c,
+  CharacterToPlace: {fileID: 1201375864225272, guid: 9f25fa8430b31bc44a14af4bfa0b572d,
     type: 2}
 --- !u!4 &926223292
 Transform:

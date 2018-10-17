@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
     public GameObject CharacterToPlace;
 
     private bool isQuitting = false;
+    private bool characterNeedsInit = true;
     private List<DetectedPlane> DetectedPlanes = new List<DetectedPlane>();
 
     void Start() {
@@ -26,11 +27,25 @@ public class GameController : MonoBehaviour {
         bool showSearchingUI = true;
         for (int i = 0; i < DetectedPlanes.Count; i++) {
             if (DetectedPlanes[i].TrackingState == TrackingState.Tracking) {
+                if (characterNeedsInit) {
+                    InitCharacter(DetectedPlanes[i]);
+                }
                 showSearchingUI = false;
                 break;
             }
         }
         SearchingPlanesUI.SetActive(showSearchingUI);
+    }
+
+    private void InitCharacter(DetectedPlane plane) {
+        characterNeedsInit = false;
+        List<Vector3> boundaryPoints = new List<Vector3>();
+        plane.GetBoundaryPolygon(boundaryPoints);
+        Vector3 centroid = VectorUtils.FindCentroid(boundaryPoints);
+        Vector3 direction = FirstPersonCamera.transform.position - centroid;
+        GameObject character = GameObject.Instantiate(CharacterToPlace, centroid, Quaternion.LookRotation(direction));
+        character.GetComponent<AguController>().FirstPersonCamera = FirstPersonCamera;
+        characterNeedsInit = false;
     }
 
     private void UpdateApplicationLifecycle() {
