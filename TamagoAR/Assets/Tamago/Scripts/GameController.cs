@@ -1,20 +1,69 @@
-﻿using System.Collections;
+﻿using GoogleARCore;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        _HandleInput();
-	}
+    public Camera FirstPersonCamera;
+    public GameObject SearchingPlanesUI;
+    public GameObject CharacterToPlace;
 
-    private void _HandleInput() {
+    private bool isQuitting = false;
+    private List<DetectedPlane> DetectedPlanes = new List<DetectedPlane>();
+
+    void Start() {
 
     }
+
+    void Update() {
+        UpdateApplicationLifecycle();
+        UpdatePlaneUI();
+    }
+
+    private void UpdatePlaneUI() {
+        Session.GetTrackables<DetectedPlane>(DetectedPlanes);
+        bool showSearchingUI = true;
+        for (int i = 0; i < DetectedPlanes.Count; i++) {
+            if (DetectedPlanes[i].TrackingState == TrackingState.Tracking) {
+                showSearchingUI = false;
+                break;
+            }
+        }
+        SearchingPlanesUI.SetActive(showSearchingUI);
+    }
+
+    private void UpdateApplicationLifecycle() {
+        if (Input.GetKey(KeyCode.Escape)) {
+            Application.Quit();
+        }
+
+        if (Session.Status != SessionStatus.Tracking) {
+            const int lostTrackingSleepTimeout = 15;
+            Screen.sleepTimeout = lostTrackingSleepTimeout;
+        } else {
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        }
+
+        if (isQuitting) {
+            return;
+        }
+
+        if (Session.Status == SessionStatus.ErrorPermissionNotGranted) {
+            AndroidUtils.ShowAndroidToastMessage("Camera permission is needed to run this application.");
+            isQuitting = true;
+            StartCoroutine(DoQuitWithDelay());
+        } else if (Session.Status.IsError()) {
+            AndroidUtils.ShowAndroidToastMessage("ARCore encountered a problem connecting.  Please start the app again.");
+            isQuitting = true;
+            StartCoroutine(DoQuitWithDelay());
+        }
+    }
+
+    private IEnumerator DoQuitWithDelay(float delay = 0.5f) {
+        yield return new WaitForSeconds(delay);
+        Application.Quit();
+    }
+
+
 }
