@@ -38,13 +38,14 @@ public class GameController : MonoBehaviour {
     }
 
     private void InitCharacter(DetectedPlane plane) {
-        characterNeedsInit = false;
-        List<Vector3> boundaryPoints = new List<Vector3>();
-        plane.GetBoundaryPolygon(boundaryPoints);
-        Vector3 centroid = VectorUtils.FindCentroid(boundaryPoints);
+        characterNeedsInit = false; 
+        Pose center = plane.GetPlaneCenter();
+        Vector3 centroid = center.position;
+        Debug.Log("Centroid from AR API: " + centroid);
         Vector3 direction = FirstPersonCamera.transform.position - centroid;
         GameObject character = GameObject.Instantiate(CharacterToPlace, centroid, Quaternion.LookRotation(direction));
         character.GetComponent<AguController>().FirstPersonCamera = FirstPersonCamera;
+        character.GetComponent<AguController>().SetCurrentPlane(plane);
         characterNeedsInit = false;
     }
 

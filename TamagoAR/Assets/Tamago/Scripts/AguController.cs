@@ -9,29 +9,45 @@ public class AguController : MonoBehaviour {
     public Camera FirstPersonCamera;
     public float rotateSpeed = 1f;
     public float walkSpeed = 1f;
+    public int yUpdateInterval = 5;
     private IEnumerator Rotating;
     private IEnumerator Walking;
     private Animator animator;
     private Vector3 DestinationPoint;
+    private DetectedPlane currentPlane;
+    private DetectedPlane destinationPlane;
+    private bool updateYActive = true;
 
     void Start() {
         animator = GetComponent<Animator>();
+        StartCoroutine(UpdateYRelativeToCurrentPlane());
     }
 
     // Update is called once per frame
     void Update() {
         HandleInput();
     }
+    
+    public void SetCurrentPlane(DetectedPlane plane) {
+        currentPlane = plane;
+    }
 
     private void HandleInput() {
         Touch touch;
         if (Input.touchCount >= 1 && (touch = Input.GetTouch(0)).phase == TouchPhase.Began) {
-            //casting against objects tracked by arcore ( not for custom ones)
+            //casting against objects tracked by arcore - frame raycast ( not for custom ones)
             TrackableHit hit;
             TrackableHitFlags filter = TrackableHitFlags.PlaneWithinPolygon;
             if (Frame.Raycast(touch.position.x, touch.position.y, filter, out hit)) {
-                if (hit.Trackable is DetectedPlane && Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position, hit.Pose.rotation * Vector3.up) > 0) {
+                DetectedPlane plane;
+                if(hit.Trackable is DetectedPlane) {
+                    plane = (DetectedPlane) hit.Trackable;
+                } else {
+                    return;
+                }
+                if (!plane.IsVerticalPlane() && Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position, hit.Pose.rotation * Vector3.up) > 0) {
                     DestinationPoint = hit.Pose.position;
+                    destinationPlane = plane;
                     RotateAndWalkToPosition();
                 } else {
                     Debug.Log("Hit at back of detected plane");
@@ -41,6 +57,9 @@ public class AguController : MonoBehaviour {
     }
 
     private void RotateAndWalkToPosition() {
+        if(destinationPlane != currentPlane) {
+            Debug.Log("Walking to different plane!");
+        }
         if (Rotating != null) {
             StopCoroutine(Rotating);
         }
@@ -80,15 +99,25 @@ public class AguController : MonoBehaviour {
         Vector3 destinationIgnoredY = new Vector3(DestinationPoint.x, transform.position.y, DestinationPoint.z);
         Vector3 direction = destinationIgnoredY - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        Debug.Log("Here I am");
         while (transform.rotation != lookRotation) {
-            Debug.Log("Inside loop");
             Debug.Log("Character: " + transform.rotation + " Destination: " + lookRotation);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, rotateSpeed);
             yield return null;
         }
         if (SuccessorCoroutine != null) {
             yield return StartCoroutine(SuccessorCoroutine);
+        }
+    }
+
+    private IEnumerator UpdateYRelativeToCurrentPlane() {
+        while(true) {
+            if(updateYActive && currentPlane != null) {
+                float updatedY = currentPlane.GetPlaneCenter().position.y;
+                Vector3 updatedPosition = transform.position;
+                updatedPosition.y = updatedY;
+                transform.position = updatedPosition;
+            }
+            yield return new WaitForSeconds(yUpdateInterval);
         }
     }
 }
