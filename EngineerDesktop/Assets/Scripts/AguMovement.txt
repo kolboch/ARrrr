@@ -1,0 +1,14 @@
+tree("Root")
+	fallback
+		tree("AguMovement")
+
+tree("AguMovement")
+	while not HasInput
+		sequence 
+			SetIsWalkingAnim(false)
+			IgnoreYPosition
+			Rotate
+			SetIsWalkingAnim(true)
+			Walk
+			SetIsWalkingAnim(false)
+		

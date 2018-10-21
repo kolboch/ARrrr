@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Panda;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -9,78 +8,72 @@ public class GameController : MonoBehaviour {
     public Camera MainCamera;
     public float WalkSpeed = 0.5f;
     public float RotateSpeed = 5f;
+    private PandaBehaviour CharacterBT;
     private Vector3 DestinationPoint;
-    private IEnumerator Walking;
-    private IEnumerator Rotating;
-
+    private Vector3 DestinationYIgnored;
+    private Quaternion LookRotation;
+    
     // Use this for initialization
     void Start() {
-        
+        CharacterBT = GetComponent<PandaBehaviour>();
     }
 
     // Update is called once per frame
     void Update() {
-        HandleInput();
+        
     }
 
-    private void HandleInput() {
+    [Task]
+    bool HasInput() {
         if (Input.GetMouseButton(0)) {
             RaycastHit hit;
             Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
             if (hit.collider.tag == "Environment") {
                 DestinationPoint = hit.point;
-                RotateAndWalkToPosition();
+                ComputeLookDirection();
+                return true;
             }
         }
+        return false;
+    }
+    
+    private void ComputeLookDirection() {
+        Vector3 direction = DestinationPoint - Character.position;
+        LookRotation = Quaternion.LookRotation(direction);
     }
 
-    private void RotateAndWalkToPosition() {
-        if(Rotating != null) {
-            StopCoroutine(Rotating);
-        }
-        StopWalkingCoroutine();
-        animator.SetBool("IsWalking", false);
-        Walking = WalkingCoroutine();
-        Rotating = RotateCoroutine(Walking);
-        StartCoroutine(Rotating);
-    }
-
-    private void StartWalkingToPosition() {
-        StopWalkingCoroutine();
-        Walking = WalkingCoroutine();
-        StartCoroutine(Walking);
-    }
-
-    private void StopWalkingCoroutine() {
-        if(Walking != null) {
-            StopCoroutine(Walking);
+    [Task]
+    void Rotate() {
+        Character.rotation = Quaternion.RotateTowards(Character.rotation, LookRotation, RotateSpeed);
+        if(Character.rotation == LookRotation) {
+            Task.current.Succeed();
         }
     }
-
-    private IEnumerator WalkingCoroutine() {
-        animator.SetBool("IsWalking", true);
-        var destinationIgnoredY = new Vector3(DestinationPoint.x, Character.position.y, DestinationPoint.z);
-        while (Character.position != destinationIgnoredY) {
-            Character.position = Vector3.MoveTowards(Character.position, destinationIgnoredY, WalkSpeed * Time.deltaTime);
-            yield return null;
-        }
-        animator.SetBool("IsWalking", false);
+    
+    [Task]
+    void SetIsWalkingAnim(bool isWalking) {
+        animator.SetBool("IsWalking", isWalking);
+        Task.current.Succeed();
     }
 
-    private IEnumerator RotateCoroutine(IEnumerator SuccessorCoroutine = null) {
-        Vector3 destinationIgnoredY = new Vector3(DestinationPoint.x, Character.position.y, DestinationPoint.z);
-        Vector3 direction = destinationIgnoredY - Character.position;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        Debug.Log("Here I am");
-        while (Character.rotation != lookRotation) {
-            Debug.Log("Inside loop");
-            Debug.Log("Character: " + Character.rotation + " Destination: " + lookRotation);
-            Character.rotation = Quaternion.RotateTowards(Character.rotation, lookRotation, RotateSpeed);
-            yield return null;
-        }
-        if (SuccessorCoroutine != null) {
-            yield return StartCoroutine(SuccessorCoroutine);
+    [Task]
+    void IgnoreYPosition() {
+        // ignore Y by now
+        DestinationPoint.y = Character.position.y;
+        Task.current.Succeed();
+    }
+    
+    [Task]
+    void Walk() {
+        Vector3 delta = (DestinationPoint - Character.position);
+        Character.position = Vector3.MoveTowards(Character.position, DestinationPoint, WalkSpeed * Time.deltaTime);
+        Vector3 newDelta = (DestinationPoint - Character.position);
+        float d = newDelta.magnitude;
+        if (Vector3.Dot(delta, newDelta) <= 0.0f || d < 1e-3) {
+            Character.position = DestinationPoint;
+            animator.SetBool("IsWalking", false);
+            Task.current.Succeed();
         }
     }
 }
