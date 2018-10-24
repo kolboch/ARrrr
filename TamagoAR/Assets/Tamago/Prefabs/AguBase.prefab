@@ -704,6 +704,7 @@ MonoBehaviour:
   FirstPersonCamera: {fileID: 0}
   rotateSpeed: 3
   walkSpeed: 0.5
+  yUpdateInterval: 5
 --- !u!137 &137072189995170190
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
