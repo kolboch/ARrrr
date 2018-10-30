@@ -165,7 +165,7 @@ ModelImporter:
       name: Jumping
       takeName: Jumping
       firstFrame: -1
-      lastFrame: 119
+      lastFrame: 85
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

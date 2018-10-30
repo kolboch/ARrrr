@@ -82,7 +82,7 @@ public class AguController : MonoBehaviour {
     }
 
     private IEnumerator RotateAndWalkToPosition() {
-        if (DestinationPlane != CurrentPlane) {
+        if (!DestinationPlane.Equals(CurrentPlane)) {
             Debug.Log("Walking to different plane!");
             GameController.FindSubpathTo(transform.position, DestinationPoint, CurrentPlane, DestinationPlane, ref PathSubPoints);
             if (PathSubPoints.Count > 0) {
@@ -148,7 +148,6 @@ public class AguController : MonoBehaviour {
 
     private IEnumerator RotateCoroutine(Quaternion lookRotation) {
         while (transform.rotation != lookRotation) {
-            Debug.Log("Character: " + transform.rotation + " Destination: " + lookRotation);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, rotateSpeed);
             yield return null;
         }
