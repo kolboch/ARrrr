@@ -2,16 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameController : MonoBehaviour {
 
     public Camera FirstPersonCamera;
     public GameObject SearchingPlanesUI;
-    public GameObject CharacterToPlace;
+    public GameObject CharacterPrefab;
+    public GameObject StarPrefab;
 
+    public float starSpawnIntervalSeconds = 10f;
     private bool isQuitting = false;
     private bool characterNeedsInit = true;
     private List<DetectedPlane> DetectedPlanes = new List<DetectedPlane>();
+    private IEnumerator StarSpawnCoroutine;
 
     void Start() {
 
@@ -20,6 +24,10 @@ public class GameController : MonoBehaviour {
     void Update() {
         UpdateApplicationLifecycle();
         UpdatePlaneUI();
+        if (StarSpawnCoroutine == null) {
+            StarSpawnCoroutine = PlaceStarAtRandom();
+            StartCoroutine(StarSpawnCoroutine);
+        }
     }
 
     private void UpdatePlaneUI() {
@@ -39,11 +47,11 @@ public class GameController : MonoBehaviour {
 
     private void InitCharacter(DetectedPlane plane) {
         characterNeedsInit = false;
-        Pose center = plane.GetPlaneCenter();
+        Pose center = plane.CenterPose;
         Vector3 centroid = center.position;
         Debug.Log("Centroid from AR API: " + centroid);
         Vector3 direction = FirstPersonCamera.transform.position - centroid;
-        GameObject character = GameObject.Instantiate(CharacterToPlace, centroid, Quaternion.LookRotation(direction));
+        GameObject character = GameObject.Instantiate(CharacterPrefab, centroid, Quaternion.LookRotation(direction));
         character.GetComponent<AguController>().FirstPersonCamera = FirstPersonCamera;
         character.GetComponent<AguController>().SetCurrentPlane(plane);
         character.GetComponent<AguController>().SetGameController(this);
@@ -164,5 +172,27 @@ public class GameController : MonoBehaviour {
             midPoints.Add(midPoint);
         });
         return midPoints;
+    }
+
+    private IEnumerator PlaceStarAtRandom() {
+        System.Random random;
+        DetectedPlane planeSelected;
+        Pose planeCenterPose;
+        Vector3 centerVector;
+        int extentsDivisor = 4;
+        yield return new WaitForSeconds(starSpawnIntervalSeconds);
+        while (true && DetectedPlanes.Count > 0) {
+            random = new System.Random();
+            int planeIndex = random.Next(0, DetectedPlanes.Count);
+            planeSelected = DetectedPlanes[planeIndex];
+            planeCenterPose = planeSelected.CenterPose;
+            centerVector = planeCenterPose.position;
+            float extentX = planeSelected.ExtentX;
+            float extentZ = planeSelected.ExtentZ;
+            float randomX = (float)(random.NextDouble() * extentX / extentsDivisor) * (random.NextDouble() > 0.5 ? 1 : -1);
+            float randomZ = (float)(random.NextDouble() * extentZ / extentsDivisor) * (random.NextDouble() > 0.5 ? 1 : -1);
+            GameObject.Instantiate(StarPrefab, new Vector3(centerVector.x + randomX, centerVector.y, centerVector.z + randomZ), planeCenterPose.rotation);
+            yield return new WaitForSeconds(starSpawnIntervalSeconds);
+        }
     }
 }

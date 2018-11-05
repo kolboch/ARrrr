@@ -156,7 +156,7 @@ public class AguController : MonoBehaviour {
     private IEnumerator UpdateYRelativeToCurrentPlane() {
         while (true) {
             if (updateYActive && CurrentPlane != null && !performsJump) {
-                float updatedY = CurrentPlane.GetPlaneCenter().position.y;
+                float updatedY = CurrentPlane.CenterPose.position.y;
                 Vector3 updatedPosition = transform.position;
                 updatedPosition.y = updatedY;
                 transform.position = updatedPosition;
