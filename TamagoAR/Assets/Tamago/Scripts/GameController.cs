@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using TMPro;
 
 public class GameController : MonoBehaviour {
 
@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
     public GameObject SearchingPlanesUI;
     public GameObject CharacterPrefab;
     public GameObject StarPrefab;
+    public TextMeshProUGUI StarBalanceText;
 
     public float starSpawnIntervalSeconds = 10f;
     private bool isQuitting = false;
@@ -21,6 +22,7 @@ public class GameController : MonoBehaviour {
     void Start() {
         GameState = DataStorageUtils.GetSavedGameState();
         StartCoroutine(StarSpawningCoroutine());
+        UpdateGameUI();
     }
 
     void Update() {
@@ -121,7 +123,7 @@ public class GameController : MonoBehaviour {
     }
 
     private void UpdateGameUI() {
-        AndroidUtils.ShowAndroidToastMessage("Stars: " + GameState.starsBalance);
+        StarBalanceText.SetText(GameState.starsBalance.ToString());
     }
 
     private void InitCharacter(DetectedPlane plane) {
