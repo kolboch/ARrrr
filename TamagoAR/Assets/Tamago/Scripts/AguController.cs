@@ -42,6 +42,10 @@ public class AguController : MonoBehaviour {
         HandleInput();
     }
 
+    public void OnStarCollected() {
+        GameController.CollectStar();
+    }
+
     public void SetCurrentPlane(DetectedPlane plane) {
         CurrentPlane = plane;
     }

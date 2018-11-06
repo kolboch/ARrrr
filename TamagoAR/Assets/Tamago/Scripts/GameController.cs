@@ -16,80 +16,24 @@ public class GameController : MonoBehaviour {
     private bool characterNeedsInit = true;
     private List<DetectedPlane> DetectedPlanes = new List<DetectedPlane>();
     private IEnumerator StarSpawnCoroutine;
+    private GameState GameState;
 
     void Start() {
-
+        GameState = DataStorageUtils.GetSavedGameState();
+        StartCoroutine(StarSpawningCoroutine());
     }
 
     void Update() {
         UpdateApplicationLifecycle();
         UpdatePlaneUI();
-        if (StarSpawnCoroutine == null) {
-            StarSpawnCoroutine = PlaceStarAtRandom();
-            StartCoroutine(StarSpawnCoroutine);
-        }
     }
 
-    private void UpdatePlaneUI() {
-        Session.GetTrackables<DetectedPlane>(DetectedPlanes);
-        bool showSearchingUI = true;
-        for (int i = 0; i < DetectedPlanes.Count; i++) {
-            if (DetectedPlanes[i].TrackingState == TrackingState.Tracking) {
-                if (characterNeedsInit) {
-                    InitCharacter(DetectedPlanes[i]);
-                }
-                showSearchingUI = false;
-                break;
-            }
-        }
-        SearchingPlanesUI.SetActive(showSearchingUI);
+    public void CollectStar() {
+        GameState.starsBalance++;
+        DataStorageUtils.SaveStarCounter(GameState.starsBalance);
+        UpdateGameUI();
     }
-
-    private void InitCharacter(DetectedPlane plane) {
-        characterNeedsInit = false;
-        Pose center = plane.CenterPose;
-        Vector3 centroid = center.position;
-        Debug.Log("Centroid from AR API: " + centroid);
-        Vector3 direction = FirstPersonCamera.transform.position - centroid;
-        GameObject character = GameObject.Instantiate(CharacterPrefab, centroid, Quaternion.LookRotation(direction));
-        character.GetComponent<AguController>().FirstPersonCamera = FirstPersonCamera;
-        character.GetComponent<AguController>().SetCurrentPlane(plane);
-        character.GetComponent<AguController>().SetGameController(this);
-        characterNeedsInit = false;
-    }
-
-    private void UpdateApplicationLifecycle() {
-        if (Input.GetKey(KeyCode.Escape)) {
-            Application.Quit();
-        }
-
-        if (Session.Status != SessionStatus.Tracking) {
-            const int lostTrackingSleepTimeout = 15;
-            Screen.sleepTimeout = lostTrackingSleepTimeout;
-        } else {
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        }
-
-        if (isQuitting) {
-            return;
-        }
-
-        if (Session.Status == SessionStatus.ErrorPermissionNotGranted) {
-            AndroidUtils.ShowAndroidToastMessage("Camera permission is needed to run this application.");
-            isQuitting = true;
-            StartCoroutine(DoQuitWithDelay());
-        } else if (Session.Status.IsError()) {
-            AndroidUtils.ShowAndroidToastMessage("ARCore encountered a problem connecting.  Please start the app again.");
-            isQuitting = true;
-            StartCoroutine(DoQuitWithDelay());
-        }
-    }
-
-    private IEnumerator DoQuitWithDelay(float delay = 0.5f) {
-        yield return new WaitForSeconds(delay);
-        Application.Quit();
-    }
-
+    
     public void FindSubpathTo(
         Vector3 currentPosition, Vector3 destinationPoint,
         DetectedPlane currentPlane, DetectedPlane destinationPlane,
@@ -161,6 +105,70 @@ public class GameController : MonoBehaviour {
         subPoints.Add(minPoint2);
     }
 
+    private void UpdatePlaneUI() {
+        Session.GetTrackables<DetectedPlane>(DetectedPlanes);
+        bool showSearchingUI = true;
+        for (int i = 0; i < DetectedPlanes.Count; i++) {
+            if (DetectedPlanes[i].TrackingState == TrackingState.Tracking) {
+                if (characterNeedsInit) {
+                    InitCharacter(DetectedPlanes[i]);
+                }
+                showSearchingUI = false;
+                break;
+            }
+        }
+        SearchingPlanesUI.SetActive(showSearchingUI);
+    }
+
+    private void UpdateGameUI() {
+        AndroidUtils.ShowAndroidToastMessage("Stars: " + GameState.starsBalance);
+    }
+
+    private void InitCharacter(DetectedPlane plane) {
+        characterNeedsInit = false;
+        Pose center = plane.CenterPose;
+        Vector3 centroid = center.position;
+        Debug.Log("Centroid from AR API: " + centroid);
+        Vector3 direction = FirstPersonCamera.transform.position - centroid;
+        GameObject character = GameObject.Instantiate(CharacterPrefab, centroid, Quaternion.LookRotation(direction));
+        character.GetComponent<AguController>().FirstPersonCamera = FirstPersonCamera;
+        character.GetComponent<AguController>().SetCurrentPlane(plane);
+        character.GetComponent<AguController>().SetGameController(this);
+        characterNeedsInit = false;
+    }
+
+    private void UpdateApplicationLifecycle() {
+        if (Input.GetKey(KeyCode.Escape)) {
+            Application.Quit();
+        }
+
+        if (Session.Status != SessionStatus.Tracking) {
+            const int lostTrackingSleepTimeout = 15;
+            Screen.sleepTimeout = lostTrackingSleepTimeout;
+        } else {
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        }
+
+        if (isQuitting) {
+            return;
+        }
+
+        if (Session.Status == SessionStatus.ErrorPermissionNotGranted) {
+            AndroidUtils.ShowAndroidToastMessage("Camera permission is needed to run this application.");
+            isQuitting = true;
+            StartCoroutine(DoQuitWithDelay());
+        } else if (Session.Status.IsError()) {
+            AndroidUtils.ShowAndroidToastMessage("ARCore encountered a problem connecting.  Please start the app again.");
+            isQuitting = true;
+            StartCoroutine(DoQuitWithDelay());
+        }
+    }
+
+    private IEnumerator DoQuitWithDelay(float delay = 0.5f) {
+        yield return new WaitForSeconds(delay);
+        Application.Quit();
+    }
+
     /// <summary>
     /// Generate mid-points between points and singlePoint with yDefined
     /// </summary>
@@ -174,7 +182,18 @@ public class GameController : MonoBehaviour {
         return midPoints;
     }
 
+    private IEnumerator StarSpawningCoroutine() {
+        while (true) {
+            if (StarSpawnCoroutine == null) {
+                StarSpawnCoroutine = PlaceStarAtRandom();
+                StartCoroutine(StarSpawnCoroutine);
+            }
+            yield return new WaitForSeconds(5);
+        }
+    }
+
     private IEnumerator PlaceStarAtRandom() {
+        Debug.Log("PlaceStarAtRandom coroutine");
         System.Random random;
         DetectedPlane planeSelected;
         Pose planeCenterPose;
@@ -182,6 +201,7 @@ public class GameController : MonoBehaviour {
         int extentsDivisor = 4;
         yield return new WaitForSeconds(starSpawnIntervalSeconds);
         while (true && DetectedPlanes.Count > 0) {
+            Debug.Log("Going to spawn a star.");
             random = new System.Random();
             int planeIndex = random.Next(0, DetectedPlanes.Count);
             planeSelected = DetectedPlanes[planeIndex];
@@ -194,5 +214,7 @@ public class GameController : MonoBehaviour {
             GameObject.Instantiate(StarPrefab, new Vector3(centerVector.x + randomX, centerVector.y, centerVector.z + randomZ), planeCenterPose.rotation);
             yield return new WaitForSeconds(starSpawnIntervalSeconds);
         }
+        StarSpawnCoroutine = null;
+        yield break;
     }
 }
