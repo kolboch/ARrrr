@@ -17,15 +17,14 @@ public class AguController : MonoBehaviour {
 
     private float jumpAnimTime;
     private Animator animator;
-    private Vector3 DestinationPoint;
 
     private IEnumerator Walking;
     private IEnumerator Rotating;
     private IEnumerator Jumping;
+    private IEnumerator SequenceMoving;
     private List<Vector3> PathSubPoints = new List<Vector3>();
 
     private DetectedPlane CurrentPlane;
-    private DetectedPlane DestinationPlane;
     private GameController GameController;
 
     private bool updateYActive = true;
@@ -40,6 +39,10 @@ public class AguController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         HandleInput();
+    }
+
+    private void OnDestroy() {
+        StopAllCoroutines();
     }
 
     public void OnStarCollected() {
@@ -68,9 +71,7 @@ public class AguController : MonoBehaviour {
                     return;
                 }
                 if (!plane.IsVerticalPlane() && Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position, hit.Pose.rotation * Vector3.up) > 0) {
-                    DestinationPoint = hit.Pose.position;
-                    DestinationPlane = plane;
-                    StartMovement();
+                    StartMovement(plane, hit.Pose.position);
                 } else {
                     Debug.Log("Hit at back of detected plane");
                 }
@@ -78,33 +79,33 @@ public class AguController : MonoBehaviour {
         }
     }
 
-    private void StartMovement() {
+    private void StartMovement(DetectedPlane destinationPlane, Vector3 destinationPoint) {
         if (performsJump) {
             return;
+        } else {
+            PreRotateAndWalk();
+            StartCoroutine(SequenceMoving = RotateAndWalkToPosition(destinationPlane, destinationPoint));
         }
-        StartCoroutine(RotateAndWalkToPosition());
     }
 
-    private IEnumerator RotateAndWalkToPosition() {
-        if (!DestinationPlane.Equals(CurrentPlane)) {
+    private IEnumerator RotateAndWalkToPosition(DetectedPlane destinationPlane, Vector3 destinationPoint) {
+        if (!destinationPlane.Equals(CurrentPlane)) {
             Debug.Log("Walking to different plane!");
-            GameController.FindSubpathTo(transform.position, DestinationPoint, CurrentPlane, DestinationPlane, ref PathSubPoints);
+            GameController.FindSubpathTo(transform.position, destinationPoint, CurrentPlane, destinationPlane, ref PathSubPoints);
             if (PathSubPoints.Count > 0) {
-                PreRotateAndWalk();
                 Debug.Log("Subpoints count: " + PathSubPoints.Count);
                 for (int i = 0; i < PathSubPoints.Count; i += 2) {
                     yield return StartCoroutine(Rotating = RotateCoroutine(GetLookRotation(PathSubPoints[i])));
                     yield return StartCoroutine(Walking = WalkCoroutine(GetPointIgnoredRelativeY(PathSubPoints[i])));
                     yield return StartCoroutine(Rotating = RotateCoroutine(GetLookRotation(PathSubPoints[i + 1])));
-                    yield return StartCoroutine(Jumping = JumpCoroutine(PathSubPoints[i + 1], DestinationPlane));
+                    yield return StartCoroutine(Jumping = JumpCoroutine(PathSubPoints[i + 1], destinationPlane));
                 }
-                yield return StartCoroutine(Rotating = RotateCoroutine(GetLookRotation(DestinationPoint)));
-                yield return StartCoroutine(Walking = WalkCoroutine(GetPointIgnoredRelativeY(DestinationPoint)));
+                yield return StartCoroutine(Rotating = RotateCoroutine(GetLookRotation(destinationPoint)));
+                yield return StartCoroutine(Walking = WalkCoroutine(GetPointIgnoredRelativeY(destinationPoint)));
             }
         } else {
-            PreRotateAndWalk();
-            yield return StartCoroutine(Rotating = RotateCoroutine(GetLookRotation(DestinationPoint)));
-            yield return StartCoroutine(Walking = WalkCoroutine(GetPointIgnoredRelativeY(DestinationPoint)));
+            yield return StartCoroutine(Rotating = RotateCoroutine(GetLookRotation(destinationPoint)));
+            yield return StartCoroutine(Walking = WalkCoroutine(GetPointIgnoredRelativeY(destinationPoint)));
         }
     }
 
@@ -122,9 +123,19 @@ public class AguController : MonoBehaviour {
     private void StopMovementCoroutines() {
         if (Rotating != null) {
             StopCoroutine(Rotating);
+            Rotating = null;
         }
         if (Walking != null) {
             StopCoroutine(Walking);
+            Walking = null;
+        }
+        if (Jumping != null) {
+            StopCoroutine(Jumping);
+            Jumping = null;
+        }
+        if (SequenceMoving != null) {
+            StopCoroutine(SequenceMoving);
+            SequenceMoving = null;
         }
     }
 
@@ -159,7 +170,9 @@ public class AguController : MonoBehaviour {
 
     private IEnumerator UpdateYRelativeToCurrentPlane() {
         while (true) {
-            if (updateYActive && CurrentPlane != null && !performsJump) {
+            if (CurrentPlane == null || CurrentPlane.TrackingState != TrackingState.Tracking) {
+                GameController.RepositionCharacterAfterPlaneLost(gameObject);
+            } else if (updateYActive && !performsJump) {
                 float updatedY = CurrentPlane.CenterPose.position.y;
                 Vector3 updatedPosition = transform.position;
                 updatedPosition.y = updatedY;

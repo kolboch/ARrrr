@@ -30,12 +30,23 @@ public class GameController : MonoBehaviour {
         UpdatePlaneUI();
     }
 
+    public void RepositionCharacterAfterPlaneLost(GameObject character) {
+        AndroidUtils.ShowAndroidToastMessage("reposition character after plane lost call!");
+        DetectedPlane planeToPlaceOn = DetectedPlanes.Find(list => list.TrackingState == TrackingState.Tracking);
+        if (planeToPlaceOn != null) {
+            character.transform.position = planeToPlaceOn.CenterPose.position;
+        } else {
+            Destroy(character);
+            characterNeedsInit = true;
+        }
+    }
+
     public void CollectStar() {
         GameState.starsBalance++;
         DataStorageUtils.SaveStarCounter(GameState.starsBalance);
         UpdateGameUI();
     }
-    
+
     public void FindSubpathTo(
         Vector3 currentPosition, Vector3 destinationPoint,
         DetectedPlane currentPlane, DetectedPlane destinationPlane,
@@ -110,14 +121,12 @@ public class GameController : MonoBehaviour {
     private void UpdatePlaneUI() {
         Session.GetTrackables<DetectedPlane>(DetectedPlanes);
         bool showSearchingUI = true;
-        for (int i = 0; i < DetectedPlanes.Count; i++) {
-            if (DetectedPlanes[i].TrackingState == TrackingState.Tracking) {
-                if (characterNeedsInit) {
-                    InitCharacter(DetectedPlanes[i]);
-                }
-                showSearchingUI = false;
-                break;
+        DetectedPlane firstTracked = DetectedPlanes.Find(plane => plane.TrackingState == TrackingState.Tracking);
+        if (firstTracked != null) {
+            if (characterNeedsInit) {
+                InitCharacter(firstTracked);
             }
+            showSearchingUI = false;
         }
         SearchingPlanesUI.SetActive(showSearchingUI);
     }
@@ -128,11 +137,11 @@ public class GameController : MonoBehaviour {
 
     private void InitCharacter(DetectedPlane plane) {
         characterNeedsInit = false;
-        Pose center = plane.CenterPose;
-        Vector3 centroid = center.position;
-        Debug.Log("Centroid from AR API: " + centroid);
-        Vector3 direction = FirstPersonCamera.transform.position - centroid;
-        GameObject character = GameObject.Instantiate(CharacterPrefab, centroid, Quaternion.LookRotation(direction));
+        Pose centerPose = plane.CenterPose;
+        Vector3 center = centerPose.position;
+        Debug.Log("Center from AR API: " + center);
+        Vector3 direction = FirstPersonCamera.transform.position - center;
+        GameObject character = GameObject.Instantiate(CharacterPrefab, center, Quaternion.LookRotation(direction));
         character.GetComponent<AguController>().FirstPersonCamera = FirstPersonCamera;
         character.GetComponent<AguController>().SetCurrentPlane(plane);
         character.GetComponent<AguController>().SetGameController(this);
