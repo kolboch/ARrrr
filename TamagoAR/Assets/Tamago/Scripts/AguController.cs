@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AguController : MonoBehaviour {
 
@@ -60,6 +62,10 @@ public class AguController : MonoBehaviour {
     private void HandleInput() {
         Touch touch;
         if (Input.touchCount >= 1 && (touch = Input.GetTouch(0)).phase == TouchPhase.Began) {
+            if (IsClickOnUI(touch.position.x, touch.position.y))
+            {
+                return;
+            } 
             //casting against objects tracked by arcore - frame raycast ( not for custom ones)
             TrackableHit hit;
             TrackableHitFlags filter = TrackableHitFlags.PlaneWithinPolygon;
@@ -77,6 +83,14 @@ public class AguController : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private bool IsClickOnUI(float touchX, float touchY)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current) {position = new Vector2(touchX, touchY)};
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        return results.Count > 0;
     }
 
     private void StartMovement(DetectedPlane destinationPlane, Vector3 destinationPoint) {

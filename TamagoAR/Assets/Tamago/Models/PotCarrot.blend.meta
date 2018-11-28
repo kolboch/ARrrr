@@ -37,6 +37,7 @@ ModelImporter:
     9500000: //RootNode
     13700000: Pot
     13700002: PotCarrot
+    2186277476908879412: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -179,7 +180,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.01
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
