@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GoogleARCore;
 using UnityEngine;
 using Random = System.Random;
@@ -23,6 +24,7 @@ public class GameController : MonoBehaviour
     private bool isPlacingCarrot = false;
     private bool placingFinished = false;
     private int carrotPrice = 1;
+    private List<PotCarrotController> PotCarrots = new List<PotCarrotController>();
 
     void Start()
     {
@@ -58,6 +60,28 @@ public class GameController : MonoBehaviour
         GameState.starsBalance++;
         DataStorageUtils.SaveStarCounter(GameState.starsBalance);
         UpdateGameUI();
+    }
+
+    public bool HasCarrotsThatNeedRain()
+    {
+        return PotCarrots.Any(controller => controller.DoesPotNeedsRain());
+    }
+
+    public void CollectCarrot()
+    {
+        Debug.Log("Collected carrot");
+    }
+
+    public void OnRainDancePerformed()
+    {
+        PotCarrots.FindAll(controller => controller.DoesPotNeedsRain())
+            .ForEach(controller =>
+            {
+                if (controller.DoesPotNeedsRain())
+                {
+                    controller.PrepareFirstGrowth();
+                }
+            });
     }
 
     public void BuyCarrotPot()
@@ -386,7 +410,8 @@ public class GameController : MonoBehaviour
 
                 if (planeToPlace != null) // cant check Vector3 for null
                 {
-                    Instantiate(PotPrefab, positionToPlace, planeToPlace.CenterPose.rotation);
+                    var potCarrot = Instantiate(PotPrefab, positionToPlace, planeToPlace.CenterPose.rotation);
+                    PotCarrots.Add(potCarrot.GetComponent<PotCarrotController>());
                 }
 
                 placingFinished = false;

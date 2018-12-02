@@ -18,12 +18,14 @@ public class AguController : MonoBehaviour {
     public float jumpHeightOffset = 0.1f;
 
     private float jumpAnimTime;
+    private float rainDanceTime;
     private Animator animator;
 
     private IEnumerator Walking;
     private IEnumerator Rotating;
     private IEnumerator Jumping;
     private IEnumerator SequenceMoving;
+    private IEnumerator RainDancing;
     private List<Vector3> PathSubPoints = new List<Vector3>();
 
     private DetectedPlane CurrentPlane;
@@ -31,11 +33,13 @@ public class AguController : MonoBehaviour {
 
     private bool updateYActive = true;
     private bool performsJump = false;
+    private bool performsRainDance = false;
 
     void Start() {
         animator = GetComponent<Animator>();
         StartCoroutine(UpdateYRelativeToCurrentPlane());
         jumpAnimTime = animator.runtimeAnimatorController.animationClips.First(anim => anim.name == AguAnim.JUMP_CLIP).length;
+        rainDanceTime = animator.runtimeAnimatorController.animationClips.First(anim => anim.name == AguAnim.RAIN_DANCE_CLIP).length;
     }
 
     // Update is called once per frame
@@ -50,6 +54,11 @@ public class AguController : MonoBehaviour {
     public void OnStarCollected() {
         GameController.CollectStar();
     }
+    
+    public void OnCarrotCollected()
+    {
+        GameController.CollectCarrot();
+    }
 
     public void SetCurrentPlane(DetectedPlane plane) {
         CurrentPlane = plane;
@@ -60,12 +69,30 @@ public class AguController : MonoBehaviour {
     }
 
     private void HandleInput() {
+        if (performsRainDance)
+        {
+            return;
+        }
         Touch touch;
         if (Input.touchCount >= 1 && (touch = Input.GetTouch(0)).phase == TouchPhase.Began) {
             if (IsClickOnUI(touch.position.x, touch.position.y))
             {
                 return;
-            } 
+            }
+            // check if click on character
+            var ray = FirstPersonCamera.ScreenPointToRay(touch.position);
+            RaycastHit physicsHit;
+            if (Physics.Raycast(ray, out physicsHit))
+            {
+                Debug.DrawRay(FirstPersonCamera.ScreenToWorldPoint(touch.position), Vector3.up);
+                if (physicsHit.collider.CompareTag(Tags.TAG_CHARACTER))
+                {
+                    Debug.Log("Character touch!!");
+                    HandleCharacterTouch();
+                    return;
+                }
+            }
+            
             //casting against objects tracked by arcore - frame raycast ( not for custom ones)
             TrackableHit hit;
             TrackableHitFlags filter = TrackableHitFlags.PlaneWithinPolygon;
@@ -81,6 +108,22 @@ public class AguController : MonoBehaviour {
                 } else {
                     Debug.Log("Hit at back of detected plane");
                 }
+            }
+        }
+    }
+
+    private void HandleCharacterTouch()
+    {
+        if (GameController.HasCarrotsThatNeedRain())
+        {
+            if (performsJump)
+            {
+                return;
+            }
+            else
+            {
+                PreRotateAndWalk();
+                StartCoroutine(RainDancing = RainDanceCoroutine());
             }
         }
     }
@@ -216,5 +259,14 @@ public class AguController : MonoBehaviour {
         CurrentPlane = destinationPlane;
         animator.SetBool(AguAnim.IS_JUMPING, false);
         performsJump = false;
+    }
+
+    private IEnumerator RainDanceCoroutine()
+    {
+        performsRainDance = true;
+        animator.SetTrigger(AguAnim.RAIN_DANCE_TRIGGER);
+        yield return new WaitForSeconds(rainDanceTime);
+        performsRainDance = false;
+        GameController.OnRainDancePerformed();
     }
 }

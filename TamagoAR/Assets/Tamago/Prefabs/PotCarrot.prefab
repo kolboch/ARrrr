@@ -248,7 +248,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CloudPrefab: {fileID: 1361179517861362, guid: 4a5199aab8a46e3489aa2771f50bfb06,
     type: 2}
+  CarrotPrefab: {fileID: 1617595601495492, guid: 7e4c87f302adfc54c8b63f1a27542907,
+    type: 2}
   firstPhaseDelaySeconds: 10
+  secondPhaseDelaySeconds: 10
 --- !u!137 &137641427581439084
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
