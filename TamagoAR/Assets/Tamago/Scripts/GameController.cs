@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour
     {
         GameState.starsBalance++;
         DataStorageUtils.SaveStarCounter(GameState.starsBalance);
-        UpdateGameUI();
+        UpdateGameStars();
     }
 
     public bool HasCarrotsThatNeedRain()
@@ -69,7 +69,9 @@ public class GameController : MonoBehaviour
 
     public void CollectCarrot()
     {
-        Debug.Log("Collected carrot");
+        GameState.carrotBalance++;
+        DataStorageUtils.SaveCarrotCounter(GameState.carrotBalance);
+        UpdateGameCarrots();
     }
 
     public void OnRainDancePerformed()
@@ -226,6 +228,19 @@ public class GameController : MonoBehaviour
     }
 
     private void UpdateGameUI()
+    {
+        UpdateGameStars();
+        UpdateGameCarrots();
+        MenusController.FlashBalanceMenu();
+    }
+
+    private void UpdateGameCarrots()
+    {
+        MenusController.UpdateBalanceCarrotsUI(GameState.carrotBalance.ToString());
+        MenusController.FlashBalanceMenu();
+    }
+
+    private void UpdateGameStars()
     {
         MenusController.UpdateBalanceStarsUI(GameState.starsBalance.ToString());
         MenusController.FlashBalanceMenu();

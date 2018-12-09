@@ -15,6 +15,7 @@ public class MenusController : MonoBehaviour
     public GameObject CancelButton;
     public float flashTimeSeconds = 5f;
     public TextMeshProUGUI StarBalanceText;
+    public TextMeshProUGUI CarrotBalanceText;
     public bool fullMenuOn = false;
 
     private IEnumerator FlashingBalanceCoroutine;
@@ -74,15 +75,22 @@ public class MenusController : MonoBehaviour
 
     public void FlashBalanceMenu()
     {
-        FlashingBalanceCoroutine = FlashBalanceMenuCoroutine();
-        StartCoroutine(FlashingBalanceCoroutine);
+        if (FlashingBalanceCoroutine != null)
+        {
+            StopCoroutine(FlashingBalanceCoroutine);
+        }
+
+        StartCoroutine(FlashingBalanceCoroutine = FlashBalanceMenuCoroutine());
     }
 
     private IEnumerator FlashBalanceMenuCoroutine()
     {
         CanvasBalance.SetActive(true);
         yield return new WaitForSeconds(flashTimeSeconds);
-        CanvasBalance.SetActive(false);
+        if (!fullMenuOn)
+        {
+            CanvasBalance.SetActive(false);    
+        }
     }
 
     public void ShowSearchingPlanesUI(bool isSearching)
@@ -115,6 +123,11 @@ public class MenusController : MonoBehaviour
     public void UpdateBalanceStarsUI(string balance)
     {
         StarBalanceText.SetText(balance);
+    }
+
+    public void UpdateBalanceCarrotsUI(string balance)
+    {
+        CarrotBalanceText.SetText(balance);
     }
 
     private void CancelBalanceMenuCoroutine()

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95244426864029668}
   - component: {fileID: 114794773197403956}
   m_Layer: 0
-  m_Name: Cloud
+  m_Name: cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -918,7 +918,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 9
       minScalar: 10
       maxCurve:
         serializedVersion: 2
