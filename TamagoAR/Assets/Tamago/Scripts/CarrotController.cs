@@ -1,29 +1,50 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using GoogleARCore;
+using UnityEngine;
 
 public class CarrotController : MonoBehaviour
 {
-    private AnchorWrapper AnchorWrapper;
+    public float updateYInterval = 5f;
+    private DetectedPlane Plane;
+
+    private void Start()
+    {
+        StartCoroutine(UpdateYPositionCoroutine());
+    }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag(Tags.TAG_CHARACTER))
         {
             other.gameObject.GetComponent<AguController>().OnCarrotCollected();
-            ReleaseAnchor();
+            ReleaseResources();
             Destroy(gameObject);
         }
     }
 
-    public void SetAnchor(AnchorWrapper anchorWrapper)
+    public void SetPlane(DetectedPlane plane)
     {
-        AnchorWrapper = anchorWrapper;
+        Plane = plane;
     }
 
-    private void ReleaseAnchor()
+    public void ReleaseResources()
     {
-        if (AnchorWrapper != null)
+        StopAllCoroutines();
+        Plane = null;
+    }
+
+    private IEnumerator UpdateYPositionCoroutine()
+    {
+        while (true)
         {
-            AnchorsManager.ReleaseUserFromAnchorWrapper(AnchorWrapper);
+            if (Plane != null && Plane.TrackingState == TrackingState.Tracking)
+            {
+                var updatePosition = transform.position;
+                updatePosition.y = Plane.CenterPose.position.y;
+                transform.position = updatePosition;
+            }
+
+            yield return new WaitForSeconds(updateYInterval);
         }
     }
 }
