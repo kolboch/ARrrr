@@ -31,6 +31,8 @@ ModelImporter:
     100050: leaf_lvl4_b_001
     100052: leaf_spike
     100054: leafs_base
+    100056: Armature
+    100058: Bone
     400000: //RootNode
     400002: carrot_main
     400004: carrot_stem_0
@@ -59,6 +61,8 @@ ModelImporter:
     400050: leaf_lvl4_b_001
     400052: leaf_spike
     400054: leafs_base
+    400056: Armature
+    400058: Bone
     2100000: StemsBaseDarkGreen
     2100002: StemsGreen__carrot_leaf_mid
     2100004: carrot_try4_2048__carrot_try4_2048_png
@@ -148,7 +152,10 @@ ModelImporter:
     4300050: carrot_stem_0
     4300052: carrot_main
     7400000: Default Take
+    7400002: RotatingCarrotLoop
+    7400004: Rotating (1)
     9500000: //RootNode
+    13700000: carrot_main
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -211,7 +218,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: RotatingCarrotLoop
+      takeName: Rotating
+      firstFrame: 0
+      lastFrame: 119
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -242,7 +277,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
