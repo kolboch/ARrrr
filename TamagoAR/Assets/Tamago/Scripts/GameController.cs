@@ -426,6 +426,9 @@ public class GameController : MonoBehaviour
                 if (planeToPlace != null) // cant check Vector3 for null
                 {
                     var potCarrot = Instantiate(PotPrefab, positionToPlace, planeToPlace.CenterPose.rotation);
+                    // receive anchor and setup in controller
+                    var anchorWrapper = AnchorsManager.GetAnchorForTrackable(planeToPlace, new Pose(positionToPlace, planeToPlace.CenterPose.rotation));
+                    potCarrot.GetComponent<PotCarrotController>().SetAnchor(anchorWrapper);
                     PotCarrots.Add(potCarrot.GetComponent<PotCarrotController>());
                 }
 

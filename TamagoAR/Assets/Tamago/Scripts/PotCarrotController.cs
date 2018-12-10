@@ -14,6 +14,7 @@ public class PotCarrotController : MonoBehaviour
     private Animator Animator;
     private bool needsRain = true; // pot is before first growth phase
     private float lastAnimationOffset = 3f;
+    private AnchorWrapper AnchorWrapper;
 
     void Start()
     {
@@ -32,6 +33,11 @@ public class PotCarrotController : MonoBehaviour
         StartCoroutine(PrepareFirstGrowthCoroutine());
     }
 
+    public void SetAnchor(AnchorWrapper anchorWrapper)
+    {
+        AnchorWrapper = anchorWrapper;
+    }
+
     private IEnumerator PrepareFirstGrowthCoroutine()
     {
         needsRain = false;
@@ -44,7 +50,9 @@ public class PotCarrotController : MonoBehaviour
         yield return new WaitForSeconds(secondPhaseDelaySeconds);
         Animator.SetTrigger(PotCarrotAnim.GROW_SECOND_TRIGGER);
         yield return new WaitForSeconds(lastGrowthClipLength + lastAnimationOffset);
+        var carrot = Instantiate(CarrotPrefab, transform.position, transform.rotation);
+        carrot.transform.SetParent(AnchorWrapper.anchor.transform);
+        carrot.GetComponent<CarrotController>().SetAnchor(AnchorWrapper);
         Destroy(gameObject);
-        Instantiate(CarrotPrefab, transform.position, transform.rotation);
     }
 }

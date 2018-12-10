@@ -1,4 +1,5 @@
 ﻿
+using System.Runtime.CompilerServices;
 using GoogleARCore;
 using UnityEngine;
 
@@ -18,5 +19,10 @@ public static class ARCoreExtensions {
 
     public static bool IsPoseInExtents(this DetectedPlane plane, Pose pose) {
         return plane.m_NativeSession.PlaneApi.IsPoseInExtents(plane.m_TrackableNativeHandle, pose);
+    }
+
+    public static void DetachAnchor(this Anchor anchor)
+    {
+       anchor.m_NativeSession.AnchorApi.Detach(anchor.m_NativeHandle);
     }
 }
