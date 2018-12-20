@@ -426,6 +426,7 @@ public class GameController : MonoBehaviour
                 if (planeToPlace != null) // cant check Vector3 for null
                 {
                     var potCarrot = Instantiate(PotPrefab, positionToPlace, planeToPlace.CenterPose.rotation);
+                    potCarrot.GetComponent<PotCarrotController>().SetPlane(planeToPlace);
                     PotCarrots.Add(potCarrot.GetComponent<PotCarrotController>());
                 }
 
