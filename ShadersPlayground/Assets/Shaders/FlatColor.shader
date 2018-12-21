@@ -40,6 +40,6 @@ Shader "Custom/FlatColor" {
 	        ENDCG
 	    }
 	 }
-	 //fallback commented out during development
-	 Fallback "Diffuse"
+	 // TODO fallback commented out during development
+	 // Fallback "Diffuse"
 }

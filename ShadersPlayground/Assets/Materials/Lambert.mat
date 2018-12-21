@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: FlatColor
-  m_Shader: {fileID: 4800000, guid: a6600e8c7d1592642949b47d72a77d69, type: 3}
+  m_Name: Lambert
+  m_Shader: {fileID: 4800000, guid: 7711d8cb73dc6e9438aa1b07f0dd1def, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -72,5 +72,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.6603774, g: 0.08410467, b: 0.08410467, a: 1}
+    - _Color: {r: 0, g: 0.44504026, b: 0.7735849, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
