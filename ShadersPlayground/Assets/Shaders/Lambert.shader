@@ -59,5 +59,6 @@ Shader "Custom/Lambert" {
 	        ENDCG
 	    } 
 	}
-	
+	// TODO fallback commented out during development
+	// Fallback "Diffuse"
 }

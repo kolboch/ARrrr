@@ -41,10 +41,10 @@ Shader "Custom/Ambient" {
 	            
 	            float3 normalDirection = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject)).xyz;
 	            float3 lightDirection;
-	            float atten = 1.0;
+	            float attenutation = 1.0;
 	            
 	            lightDirection = normalize(_WorldSpaceLightPos0.xyz);
-	            float3 diffuseReflection = atten * _LightColor0.xyz * max(0.0, dot(normalDirection, lightDirection));
+	            float3 diffuseReflection = attenutation * _LightColor0.xyz * max(0.0, dot(normalDirection, lightDirection));
 	            float3 lightFinal = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT.xyz;
 	            
 	            o.col = float4(lightFinal * _Color.rgb, 1.0);
@@ -60,5 +60,6 @@ Shader "Custom/Ambient" {
 	        ENDCG
 	    } 
 	}
-	
+	// TODO fallback commented out during development
+	// Fallback "Diffuse"
 }
