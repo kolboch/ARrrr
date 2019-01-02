@@ -44,9 +44,9 @@
                 return o;
             };
             
-            float4 frag(vertexOutput output): COLOR {
-                float3 normalDirection = output.normalDir;
-                float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - output.posWorld.xyz);
+            float4 frag(vertexOutput i): COLOR {
+                float3 normalDirection = i.normalDir;
+                float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld.xyz);
                 float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
                 float attenuation = 1.0;
                 
@@ -56,7 +56,7 @@
                 
                 // rim lighting 
                 float rim = 1 - saturate(dot(viewDirection, normalDirection));
-                float3 rimLighting = attenuation * _LightColor0.xyz * _RimColor * saturate(dot(normalDirection, lightDirection)) * pow(rim, _RimPower);
+                float3 rimLighting = attenuation * _LightColor0.xyz * _RimColor * satDotNormalAndLight * pow(rim, _RimPower);
                 float3 lightFinal = rimLighting + diffuseReflection + specularReflection + UNITY_LIGHTMODEL_AMBIENT.xyz; 
                 return float4(lightFinal * _Color.xyz, 1.0);
             };
