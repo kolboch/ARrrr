@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BrickBrown
+  m_Name: DetailBrick
   m_Shader: {fileID: 4800000, guid: 0ae5ba449a314bb418d0426ecb080d75, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -31,8 +31,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BumpDepth: 1
-    - _RimPower: 9.98
+    - _BumpDepth: 0.61
+    - _RimPower: 1
     - _Shininess: 10
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

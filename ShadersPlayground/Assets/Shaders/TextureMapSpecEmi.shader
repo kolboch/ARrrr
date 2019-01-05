@@ -1,13 +1,15 @@
-﻿Shader "Custom/TextureWithMap" {
+﻿Shader "Custom/TextMapSpecEmis" {
 	Properties {
 	    _Color ("Color tint", Color) = (1.0, 1.0, 1.0, 1.0)
-	    _MainTex ("Diffuse Texture", 2D) = "white" {}
+	    _MainTex ("Diffuse Texture, gloss(A)", 2D) = "white" {}
 	    _BumpMap ("Normal Texture", 2D) = "bump" {}
+	    _EmitMap ("Emission texture", 2D) = "black" {}
 	    _BumpDepth ("Bump depth", Range(-2.0, 2.0)) = 1.0
 	    _SpecColor ("Specular Color", Color) = (1.0, 1.0, 1.0, 1.0)
 	    _Shininess ("Shininess", Float) = 10
 	    _RimColor ("Rim color", Color) = (1.0, 1.0, 1.0, 1.0)
-	    _RimPower ("Rim power", Range(0.1, 10.0)) = 3.0 
+	    _RimPower ("Rim power", Range(0.1, 10.0)) = 3.0
+	    _EmitStrength ("Emission strength", Range(0.0, 2.0)) = 0 
 	}
 	
 	SubShader {
@@ -25,6 +27,9 @@
 	        uniform sampler2D _BumpMap;
 	        uniform float4 _BumpMap_ST;
 	        uniform float _BumpDepth;
+	        uniform sampler2D _EmitMap;
+	        uniform float4 _EmitMap_ST;
+	        uniform float _EmitStrength;
 	        uniform float4 _SpecColor;
 	        uniform float4 _RimColor;
 	        uniform float _Shininess;
@@ -79,6 +84,7 @@
 	            // texture maps
 	            float4 tex = tex2D(_MainTex, output.tex.xy * _MainTex_ST.xy + _MainTex_ST.zw);
 	            float4 texMap = tex2D(_BumpMap, output.tex.xy * _BumpMap_ST.xy + _BumpMap_ST.zw);
+	            float4 texEmission = tex2D(_EmitMap, output.tex.xy * _EmitMap_ST.xy + _EmitMap_ST.zw);
 	            
 	            //unpack normal function
 	            float3 localCoords = float3(2.0 * texMap.ga - float2(1.0, 1.0), 0.0); // ga is were data is, rb is empty for benefits of compression
@@ -102,7 +108,7 @@
 	            float rim = 1 - saturate(dot(normalDirection, viewDirection));
 	            float3 rimLighting = satDotNormalAndLight * _RimColor.rgb * _LightColor0.rgb * pow(rim, _RimPower);
 	            
-	            float3 lightFinal = diffuseReflection + specularReflection + rimLighting + UNITY_LIGHTMODEL_AMBIENT.rgb;
+	            float3 lightFinal = diffuseReflection + (specularReflection * tex.a) + rimLighting + UNITY_LIGHTMODEL_AMBIENT.rgb + texEmission.xyz * _EmitStrength;
 	            
 	            return float4(tex.xyz * lightFinal * _Color.xyz, 1.0);
 	        };
@@ -113,7 +119,6 @@
 	    Pass {
 	        Tags { "LightMode" = "ForwardAdd" }
 	        Blend One One
-	        
 	        CGPROGRAM
 	        #pragma vertex vert
 	        #pragma fragment frag
@@ -125,6 +130,9 @@
 	        uniform sampler2D _BumpMap;
 	        uniform float4 _BumpMap_ST;
 	        uniform float _BumpDepth;
+	        uniform sampler2D _EmitMap;
+	        uniform float4 _EmitMap_ST;
+	        uniform float _EmitStrength;
 	        uniform float4 _SpecColor;
 	        uniform float4 _RimColor;
 	        uniform float _Shininess;
@@ -178,6 +186,7 @@
 	            
 	            // texture maps
 	            float4 texMap = tex2D(_BumpMap, output.tex.xy * _BumpMap_ST.xy + _BumpMap_ST.zw);
+	            float4 texEmission = tex2D(_EmitMap, output.tex.xy * _EmitMap_ST.xy + _EmitMap_ST.zw);
 	            
 	            //unpack normal function
 	            float3 localCoords = float3(2.0 * texMap.ga - float2(1.0, 1.0), 0.0); // ga is were data is, rb is empty for benefits of compression
@@ -201,7 +210,7 @@
 	            float rim = 1 - saturate(dot(normalDirection, viewDirection));
 	            float3 rimLighting = satDotNormalAndLight * _RimColor.rgb * _LightColor0.rgb * pow(rim, _RimPower);
 	            
-	            float3 lightFinal = diffuseReflection + specularReflection + rimLighting;
+	            float3 lightFinal = diffuseReflection + (specularReflection * output.tex.a) + rimLighting;
 	            
 	            return float4(lightFinal * _Color.xyz, 1.0);
 	        };
