@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="256"
+   viewBox="0 0 135.46666 67.733336"
+   version="1.1"
+   id="svg1499"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="kakaboc.svg"
+   inkscape:export-filename="D:\1Drive\engineer\icons\kakaboc.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs1493" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="286.2078"
+     inkscape:cy="151.69146"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1366"
+     inkscape:window-height="745"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1496">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-229.26665)">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2044"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.33333588px;line-height:1.25;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#660080;fill-opacity:1;stroke:none;"
+       transform="matrix(0.61113123,0,0,0.61113123,-97.763868,187.97141)"><flowRegion
+         id="flowRegion2046"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.33333588px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#660080;fill-opacity:1;"><rect
+           id="rect2048"
+           width="375.77673"
+           height="66.670059"
+           x="81.822357"
+           y="94.375595"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.33333588px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#660080;fill-opacity:1;"
+           ry="0" /></flowRegion><flowPara
+         id="flowPara2050">kakaboc</flowPara></flowRoot>  </g>
+</svg>
