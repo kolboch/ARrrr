@@ -247,7 +247,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/secret/unity_keystore/tamagoar.keystore
+  AndroidKeystoreName: D:/1DriveFiles/build_keys/tamagoar.keystore
   AndroidKeyaliasName: key1
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1
