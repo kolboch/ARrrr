@@ -109,7 +109,7 @@ public class GameController : MonoBehaviour
         ref List<Vector3> subPoints
     )
     {
-        if (currentPlane == destinationPlane)
+        if (currentPlane == null || destinationPlane == null || currentPlane == destinationPlane)
         {
             return;
         }
@@ -253,6 +253,7 @@ public class GameController : MonoBehaviour
         Vector3 center = centerPose.position;
         Debug.Log("Center from AR API: " + center);
         Vector3 direction = FirstPersonCamera.transform.position - center;
+        direction.y = 0; // ignore other than Y axes
         GameObject character = Instantiate(CharacterPrefab, center, Quaternion.LookRotation(direction));
         character.GetComponent<AguController>().FirstPersonCamera = FirstPersonCamera;
         character.GetComponent<AguController>().SetCurrentPlane(plane);

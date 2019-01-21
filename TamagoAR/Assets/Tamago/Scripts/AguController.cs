@@ -146,7 +146,7 @@ public class AguController : MonoBehaviour {
     }
 
     private IEnumerator RotateAndWalkToPosition(DetectedPlane destinationPlane, Vector3 destinationPoint) {
-        if (!destinationPlane.Equals(CurrentPlane)) {
+        if (destinationPlane != null && !destinationPlane.Equals(CurrentPlane)) {
             Debug.Log("Walking to different plane!");
             GameController.FindSubpathTo(transform.position, destinationPoint, CurrentPlane, destinationPlane, ref PathSubPoints);
             if (PathSubPoints.Count > 0) {
@@ -256,7 +256,12 @@ public class AguController : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, destination, maxDelta * Time.deltaTime);
             yield return null;
         }
-        CurrentPlane = destinationPlane;
+
+        if (destinationPlane != null)
+        {
+            CurrentPlane = destinationPlane;    
+        }
+        
         animator.SetBool(AguAnim.IS_JUMPING, false);
         performsJump = false;
     }
