@@ -47,8 +47,10 @@ public class PotCarrotController : MonoBehaviour
         yield return new WaitForSeconds(preFirstPhaseDelaySeconds);
         var cloud = Instantiate(CloudPrefab, transform.position + new Vector3(0, cloudHeightOffset, 0),
             transform.rotation);
+        MusicManager.Instance.PlayRainSequenceMusic();
         yield return new WaitForSeconds(firstPhaseDelaySeconds);
         cloud.GetComponent<CloudController>().DestroyCloud();
+        MusicManager.Instance.PlayGameMusic();
         Animator.SetTrigger(PotCarrotAnim.GROW_FIRST_TRIGGER);
         yield return new WaitForSeconds(secondPhaseDelaySeconds);
         Animator.SetTrigger(PotCarrotAnim.GROW_SECOND_TRIGGER);

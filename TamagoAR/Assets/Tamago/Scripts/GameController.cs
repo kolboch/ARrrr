@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public MenusController MenusController;
     public GameObject PotMockPrefab;
     public GameObject PotPrefab;
+    public MusicManager MusicManager;
 
     public float starSpawnIntervalSeconds = 10f;
     private bool isQuitting = false;

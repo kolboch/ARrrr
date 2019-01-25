@@ -171,6 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7860a894431a544292302f9284f627e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDelay: 10
+  maxDelay: 30
+  collectStarSound: {fileID: 8300000, guid: 42c313f3e186aff43b773bac63afbef3, type: 3}
+  audioVolume: 0.5
 --- !u!137 &137045033803411946
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
